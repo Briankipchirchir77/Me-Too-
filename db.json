@@ -1,0 +1,77 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Alice Wanjiru",
+      "email": "alice@example.com",
+      "password": "password123",
+      "age": 25,
+      "gender": "female",
+      "bio": "Love hiking and reading. Always up for a good book club or trail walk!",
+      "interests": ["hiking", "reading", "travel"],
+      "location": "Nairobi",
+      "friends": []
+    },
+    {
+      "id": 2,
+      "name": "Bob Kamau",
+      "email": "bob@example.com",
+      "password": "password123",
+      "age": 30,
+      "gender": "male",
+      "bio": "Tech enthusiast and gamer. Looking for friends to debate gadgets with.",
+      "interests": ["gaming", "technology", "coding"],
+      "location": "Nairobi",
+      "friends": []
+    },
+    {
+      "id": 3,
+      "name": "Cynthia Omollo",
+      "email": "cyn@example.com",
+      "password": "password123",
+      "age": 28,
+      "gender": "female",
+      "bio": "Foodie and travel addict. Just back from Zanzibar — let's swap stories!",
+      "interests": ["travel", "food", "photography"],
+      "location": "Mombasa",
+      "friends": []
+    },
+    {
+      "id": 4,
+      "name": "Derek Mwangi",
+      "email": "derek@example.com",
+      "password": "password123",
+      "age": 33,
+      "gender": "male",
+      "bio": "Music producer by night, accountant by day. Love jazz and afrobeats.",
+      "interests": ["music", "afrobeats", "jazz"],
+      "location": "Nairobi",
+      "friends": []
+    },
+    {
+      "id": 5,
+      "name": "Esther Njoki",
+      "email": "esther@example.com",
+      "password": "password123",
+      "age": 22,
+      "gender": "female",
+      "bio": "Fashion designer & artist. Looking for creative minds to collab with!",
+      "interests": ["art", "fashion", "design"],
+      "location": "Nairobi",
+      "friends": []
+    },
+    {
+      "id": 6,
+      "name": "Frank Odhiambo",
+      "email": "frank@example.com",
+      "password": "password123",
+      "age": 27,
+      "gender": "male",
+      "bio": "Marathon runner and fitness coach. If you run, let's train together!",
+      "interests": ["running", "fitness", "nature"],
+      "location": "Kisumu",
+      "friends": []
+    }
+  ],
+  "friendshipRequests": []
+}

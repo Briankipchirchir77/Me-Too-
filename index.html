@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Me Too! — Find Your People</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════
+       TOP NAV
+  ══════════════════════════════════════════ -->
+  <nav class="topnav">
+    <div class="topnav-left">
+      <a href="#">Home</a>
+      <a href="#" id="nav-search-link">Search</a>
+      <a href="#">Discover</a>
+      <a href="#">Events</a>
+    </div>
+    <div class="topnav-logo">
+      <span class="logo-icon">🤝</span>
+      <span class="logo-text">Me Too!</span>
+    </div>
+    <div class="topnav-right">
+      <button class="btn-ghost" id="open-login">Log In</button>
+      <button class="btn-primary" id="open-signup">Join Free</button>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════════
+       HERO SECTION
+  ══════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">Find Friends Who <em>Get</em> You</h1>
+      <p class="hero-sub">Connect over shared passions, hobbies & vibes — not swipes.</p>
+
+      <!-- SEARCH WIDGET -->
+      <div class="search-widget">
+        <div class="sw-row">
+          <label>I want to connect with</label>
+          <div class="sw-toggle">
+            <button class="sw-btn active" data-gender="any">Anyone</button>
+            <button class="sw-btn" data-gender="female">Women</button>
+            <button class="sw-btn" data-gender="male">Men</button>
+          </div>
+        </div>
+        <div class="sw-row">
+          <label>Between ages</label>
+          <div class="sw-age">
+            <select id="age-min">
+              <option>18</option><option>21</option><option>25</option>
+              <option>30</option><option>35</option><option>40</option>
+            </select>
+            <span>—</span>
+            <select id="age-max">
+              <option>80</option><option>60</option><option>50</option>
+              <option>40</option><option>35</option><option>30</option>
+            </select>
+          </div>
+        </div>
+        <div class="sw-row">
+          <label>From</label>
+          <input type="text" id="location-search" placeholder="City or country…" />
+        </div>
+        <button class="sw-search-btn" id="do-search">🔍 Find Friends</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       PROFILE STRIP  (avatars)
+  ══════════════════════════════════════════ -->
+  <div class="profile-strip" id="profile-strip">
+    <!-- Populated by JS -->
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       MAIN CONTENT
+  ══════════════════════════════════════════ -->
+  <main class="main-content">
+
+    <!-- WELCOME / ABOUT -->
+    <section class="welcome-section">
+      <h2>Welcome to Me Too!</h2>
+      <p>The number-one place to find real friends based on what you <em>love</em> — not what you look like. Share interests, join local meetups, and build a tribe that actually gets you.</p>
+      <div class="feature-pills">
+        <span>🎨 Shared Interests</span>
+        <span>📍 Near You</span>
+        <span>🛡️ Safe & Verified</span>
+        <span>💬 Real Conversations</span>
+        <span>🎉 Group Events</span>
+      </div>
+    </section>
+
+    <!-- USER CARDS GRID -->
+    <section class="users-section" id="users-section">
+      <h2>People Near You</h2>
+      <div class="user-grid" id="user-grid">
+        <!-- Populated by JS -->
+      </div>
+    </section>
+
+    <!-- FRIENDSHIP REQUESTS PANEL (visible when logged in) -->
+    <section class="requests-section" id="requests-section" style="display:none;">
+      <h2>🤝 Friend Requests</h2>
+      <div id="requests-container"><p class="empty-msg">No pending requests.</p></div>
+    </section>
+
+    <!-- MY PROFILE (visible when logged in) -->
+    <section class="my-profile-section" id="my-profile-section" style="display:none;">
+      <h2>My Profile</h2>
+      <div id="my-profile-container"></div>
+      <button class="btn-danger" id="logout-btn">Log Out</button>
+    </section>
+
+  </main>
+
+  <!-- ══════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer-logo">🤝 Me Too!</div>
+    <div class="footer-links">
+      <a href="#">About</a>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Contact</a>
+    </div>
+    <p class="footer-copy">&copy; 2026 Me Too! — Find Your People</p>
+  </footer>
+
+  <!-- ══════════════════════════════════════════
+       MODAL OVERLAY
+  ══════════════════════════════════════════ -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" id="modal">
+      <button class="modal-close" id="modal-close">✕</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       TOAST
+  ══════════════════════════════════════════ -->
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+# Me Too! — Find Your People
+
+Me Too! is a frontend-only web application that helps users connect based on shared interests, hobbies, and location rather than appearance.
+
+---
+
+## Overview
+
+This project demonstrates a simple social discovery platform built entirely with HTML, CSS, and JavaScript. It allows users to browse profiles, filter connections, and interact through a clean, responsive interface.
+
+---
+
+## Features
+
+* User discovery with profile cards
+* Search and filtering by location and gender
+* Profile preview via modal
+* Local login and signup using browser storage
+* Friend request system (demo, non-persistent)
+* Event discovery (static demo data)
+* Responsive layout with modern UI design
+
+---
+
+## Project Structure
+
+```
+MeToo/
+│
+├── index.html
+├── styles.css
+├── script.js
+└── README.md
+```
+
+---
+
+## How It Works
+
+### User Data
+
+User profiles are fetched from the Random User API and enhanced with generated interests and bios.
+
+### Authentication
+
+Authentication is handled locally using `localStorage`. No real user verification is implemented.
+
+### Friend Requests
+
+Friend requests are stored temporarily in memory and are cleared when the page reloads.
+
+### Search
+
+Users can filter profiles based on:
+
+* Location (text input)
+* Gender selection
+
+---
+
+## Technologies
+
+* HTML5
+* CSS3
+* Vanilla JavaScript (ES6)
+* Random User API
+* Google Fonts
+
+---
+
+## Limitations
+
+* No backend or server
+* No database integration
+* No persistent data storage
+* Authentication is not secure
+* Friend requests are not saved
+
+---
+
+## Future Improvements
+
+* Backend integration (Node.js / Express)
+* Database support (MongoDB or PostgreSQL)
+* Persistent user accounts
+* Real-time messaging
+* Profile editing functionality
+* Notifications system
+
+---
+
+## Getting Started
+
+1. Clone or download the project
+2. Open `index.html` in your browser
+
+```
+git clone <your-repo-url>
+cd MeToo
+```
+
+---
+
+## Author
+
+Brian Kipchirchir
+
+---
+
+## License
+
+This project is open for learning and personal use.
