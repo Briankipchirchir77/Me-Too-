@@ -84,18 +84,14 @@ function avatarEl(name, size = 64, cls = 'card-avatar') {
   return el;
 }
 
-/* ═══════════════════════════════════════════════
-   API FETCH
-═══════════════════════════════════════════════ */
+/*API FETCH*/
 async function apiFetch(path, opts = {}) {
   try {
     return await fetch(API + path, { headers:{'Content-Type':'application/json'}, credentials:'include', ...opts });
   } catch { return null; }
 }
 
-/* ═══════════════════════════════════════════════
-   LOAD USERS
-═══════════════════════════════════════════════ */
+/*LOAD USER*/
 async function loadUsers() {
   const res = await apiFetch('/users');
   if (res && res.ok) { allUsers = await res.json(); }
@@ -255,9 +251,7 @@ document.querySelectorAll('#page-search .sw-btn').forEach(btn=>{
   });
 });
 
-/* ═══════════════════════════════════════════════
-   DISCOVER PAGE
-═══════════════════════════════════════════════ */
+/*DISCOVER PAGE*/
 function renderInterestCategories() {
   const wrap = document.getElementById('interest-categories');
   if (!wrap) return;
@@ -331,9 +325,7 @@ document.getElementById('events-filter-tabs')?.addEventListener('click',e=>{
   renderEvents(tab.dataset.filter);
 });
 
-/* ═══════════════════════════════════════════════
-   FEATURE TILES (home page)
-═══════════════════════════════════════════════ */
+/*FEATURE TILES (home page)*/
 document.querySelectorAll('.feat-btn').forEach(btn=>{
   btn.addEventListener('click',()=>{
     const action = btn.dataset.action;
