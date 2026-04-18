@@ -10,15 +10,13 @@
 </head>
 <body>
 
-  <!-- ══════════════════════════════════════════
-       TOP NAV
-  ══════════════════════════════════════════ -->
+  <!-- TOP NAV -->
   <nav class="topnav">
     <div class="topnav-left">
-      <a href="#">Home</a>
-      <a href="#" id="nav-search-link">Search</a>
-      <a href="#">Discover</a>
-      <a href="#">Events</a>
+      <a href="#" class="nav-link active" data-page="home">Home</a>
+      <a href="#" class="nav-link" data-page="search">Search</a>
+      <a href="#" class="nav-link" data-page="discover">Discover</a>
+      <a href="#" class="nav-link" data-page="events">Events</a>
     </div>
     <div class="topnav-logo">
       <span class="logo-icon">🤝</span>
@@ -31,112 +29,211 @@
   </nav>
 
   <!-- ══════════════════════════════════════════
-       HERO SECTION
+       PAGE: HOME
   ══════════════════════════════════════════ -->
-  <section class="hero">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <h1 class="hero-title">Find Friends Who <em>Get</em> You</h1>
-      <p class="hero-sub">Connect over shared passions, hobbies & vibes — not swipes.</p>
+  <div id="page-home">
 
-      <!-- SEARCH WIDGET -->
-      <div class="search-widget">
-        <div class="sw-row">
-          <label>I want to connect with</label>
-          <div class="sw-toggle">
-            <button class="sw-btn active" data-gender="any">Anyone</button>
-            <button class="sw-btn" data-gender="female">Women</button>
-            <button class="sw-btn" data-gender="male">Men</button>
-          </div>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h1 class="hero-title">Find Friends Who <em>Get</em> You</h1>
+        <p class="hero-sub">Connect over shared passions, hobbies & vibes — not swipes.</p>
+        <div class="hero-cta">
+          <button class="btn-hero-primary" id="hero-join">🤝 Join Free</button>
+          <button class="btn-hero-ghost" id="hero-search">🔍 Browse People</button>
         </div>
-        <div class="sw-row">
-          <label>Between ages</label>
-          <div class="sw-age">
-            <select id="age-min">
-              <option>18</option><option>21</option><option>25</option>
-              <option>30</option><option>35</option><option>40</option>
-            </select>
-            <span>—</span>
-            <select id="age-max">
-              <option>80</option><option>60</option><option>50</option>
-              <option>40</option><option>35</option><option>30</option>
-            </select>
-          </div>
-        </div>
-        <div class="sw-row">
-          <label>From</label>
-          <input type="text" id="location-search" placeholder="City or country…" />
-        </div>
-        <button class="sw-search-btn" id="do-search">🔍 Find Friends</button>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ══════════════════════════════════════════
-       PROFILE STRIP  (avatars)
-  ══════════════════════════════════════════ -->
-  <div class="profile-strip" id="profile-strip">
-    <!-- Populated by JS -->
+    <!-- PROFILE STRIP -->
+    <div class="profile-strip" id="profile-strip"></div>
+
+    <!-- HOME MAIN -->
+    <main class="main-content">
+
+      <!-- FEATURE TILES -->
+      <section class="features-section">
+        <h2 class="section-title">Everything You Need to Connect</h2>
+        <div class="features-grid">
+
+          <div class="feature-tile" id="feat-interests">
+            <div class="feat-icon">🎨</div>
+            <h3>Shared Interests</h3>
+            <p>Match with people who love what you love — from hiking to jazz to coding. Filter by hobby and find your crowd instantly.</p>
+            <button class="feat-btn" data-action="interests">Explore Interests →</button>
+          </div>
+
+          <div class="feature-tile" id="feat-nearby">
+            <div class="feat-icon">📍</div>
+            <h3>Near You</h3>
+            <p>Discover people in your city or neighbourhood. Real connections start close to home.</p>
+            <button class="feat-btn" data-action="nearby">Find Nearby →</button>
+          </div>
+
+          <div class="feature-tile" id="feat-verified">
+            <div class="feat-icon">🛡️</div>
+            <h3>Safe & Verified</h3>
+            <p>Every profile goes through our verification process. Browse with confidence — all accounts are reviewed for authenticity.</p>
+            <button class="feat-btn" data-action="verified">Learn More →</button>
+          </div>
+
+          <div class="feature-tile" id="feat-conversations">
+            <div class="feat-icon">💬</div>
+            <h3>Real Conversations</h3>
+            <p>No algorithm games. Send a friend request, get accepted, and start talking — it's that simple.</p>
+            <button class="feat-btn" data-action="conversations">Start Talking →</button>
+          </div>
+
+          <div class="feature-tile" id="feat-events">
+            <div class="feat-icon">🎉</div>
+            <h3>Group Events</h3>
+            <p>Join local meetups, hobby nights, and community gatherings. The best friendships start face-to-face.</p>
+            <button class="feat-btn" data-action="events">Browse Events →</button>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- PEOPLE NEAR YOU -->
+      <section class="users-section" id="users-section">
+        <div class="section-header">
+          <h2>People Near You</h2>
+          <button class="btn-text" id="see-all-people">See all →</button>
+        </div>
+        <div class="user-grid" id="user-grid"></div>
+      </section>
+
+    </main>
   </div>
 
   <!-- ══════════════════════════════════════════
-       MAIN CONTENT
+       PAGE: SEARCH
   ══════════════════════════════════════════ -->
-  <main class="main-content">
-
-    <!-- WELCOME / ABOUT -->
-    <section class="welcome-section">
-      <h2>Welcome to Me Too!</h2>
-      <p>The number-one place to find real friends based on what you <em>love</em> — not what you look like. Share interests, join local meetups, and build a tribe that actually gets you.</p>
-      <div class="feature-pills">
-        <span>🎨 Shared Interests</span>
-        <span>📍 Near You</span>
-        <span>🛡️ Safe & Verified</span>
-        <span>💬 Real Conversations</span>
-        <span>🎉 Group Events</span>
-      </div>
-    </section>
-
-    <!-- USER CARDS GRID -->
-    <section class="users-section" id="users-section">
-      <h2>People Near You</h2>
-      <div class="user-grid" id="user-grid">
-        <!-- Populated by JS -->
-      </div>
-    </section>
-
-    <!-- FRIENDSHIP REQUESTS PANEL (visible when logged in) -->
-    <section class="requests-section" id="requests-section" style="display:none;">
-      <h2>🤝 Friend Requests</h2>
-      <div id="requests-container"><p class="empty-msg">No pending requests.</p></div>
-    </section>
-
-    <!-- MY PROFILE (visible when logged in) -->
-    <section class="my-profile-section" id="my-profile-section" style="display:none;">
-      <h2>My Profile</h2>
-      <div id="my-profile-container"></div>
-      <button class="btn-danger" id="logout-btn">Log Out</button>
-    </section>
-
-  </main>
+  <div id="page-search" class="page hidden">
+    <div class="page-hero search-hero">
+      <h1>🔍 Find Your People</h1>
+      <p>Search by interest, location, age, or gender to find the right connections.</p>
+    </div>
+    <main class="main-content">
+      <section class="search-panel">
+        <div class="search-filters">
+          <div class="filter-group">
+            <label>Keyword / Interest</label>
+            <input type="text" id="kw-search" placeholder="e.g. hiking, music, coding…" />
+          </div>
+          <div class="filter-group">
+            <label>Location</label>
+            <input type="text" id="loc-search" placeholder="City or country…" />
+          </div>
+          <div class="filter-group">
+            <label>Gender</label>
+            <div class="sw-toggle">
+              <button class="sw-btn active" data-gender="any">Anyone</button>
+              <button class="sw-btn" data-gender="female">Women</button>
+              <button class="sw-btn" data-gender="male">Men</button>
+            </div>
+          </div>
+          <div class="filter-group">
+            <label>Age Range</label>
+            <div class="sw-age">
+              <select id="age-min"><option>18</option><option>21</option><option>25</option><option>30</option><option>35</option><option>40</option></select>
+              <span>—</span>
+              <select id="age-max"><option>80</option><option>60</option><option>50</option><option>40</option><option>35</option><option>30</option></select>
+            </div>
+          </div>
+          <button class="sw-search-btn" id="do-search">🔍 Search</button>
+        </div>
+        <div id="search-results-info" class="results-info"></div>
+        <div class="user-grid" id="search-grid"></div>
+      </section>
+    </main>
+  </div>
 
   <!-- ══════════════════════════════════════════
-       FOOTER
+       PAGE: DISCOVER
   ══════════════════════════════════════════ -->
+  <div id="page-discover" class="page hidden">
+    <div class="page-hero discover-hero">
+      <h1>✨ Discover</h1>
+      <p>Browse by interest category and find people who share your passions.</p>
+    </div>
+    <main class="main-content">
+
+      <section class="interests-section">
+        <h2 class="section-title">Browse by Interest</h2>
+        <div class="interest-categories" id="interest-categories">
+          <!-- populated by JS -->
+        </div>
+      </section>
+
+      <section class="discover-results-section" id="discover-results-section" style="display:none;">
+        <div class="section-header">
+          <h2 id="discover-results-title">Results</h2>
+          <button class="btn-text" id="clear-discover">✕ Clear</button>
+        </div>
+        <div class="user-grid" id="discover-grid"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE: EVENTS
+  ══════════════════════════════════════════ -->
+  <div id="page-events" class="page hidden">
+    <div class="page-hero events-hero">
+      <h1>🎉 Group Events</h1>
+      <p>Join local meetups and community gatherings near you.</p>
+    </div>
+    <main class="main-content">
+
+      <div class="events-toolbar">
+        <div class="events-filter-tabs" id="events-filter-tabs">
+          <button class="evt-tab active" data-filter="all">All Events</button>
+          <button class="evt-tab" data-filter="Sports">Sports</button>
+          <button class="evt-tab" data-filter="Arts">Arts</button>
+          <button class="evt-tab" data-filter="Tech">Tech</button>
+          <button class="evt-tab" data-filter="Food">Food</button>
+          <button class="evt-tab" data-filter="Music">Music</button>
+          <button class="evt-tab" data-filter="Outdoors">Outdoors</button>
+        </div>
+      </div>
+
+      <div class="events-grid" id="events-grid">
+        <!-- populated by JS -->
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       LOGGED-IN SECTIONS (shown in home page)
+  ══════════════════════════════════════════ -->
+  <div id="logged-in-sections" class="hidden">
+    <main class="main-content">
+      <section class="requests-section" id="requests-section">
+        <h2>🤝 Friend Requests</h2>
+        <div id="requests-container"><p class="empty-msg">No pending requests.</p></div>
+      </section>
+      <section class="my-profile-section" id="my-profile-section">
+        <h2>My Profile</h2>
+        <div id="my-profile-container"></div>
+        <button class="btn-danger" id="logout-btn">Log Out</button>
+      </section>
+    </main>
+  </div>
+
+  <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-logo">🤝 Me Too!</div>
     <div class="footer-links">
-      <a href="#">About</a>
-      <a href="#">Privacy</a>
-      <a href="#">Terms</a>
-      <a href="#">Contact</a>
+      <a href="#">About</a><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Contact</a>
     </div>
     <p class="footer-copy">&copy; 2026 Me Too! — Find Your People</p>
   </footer>
 
-  <!-- ══════════════════════════════════════════
-       MODAL OVERLAY
-  ══════════════════════════════════════════ -->
+  <!-- MODAL -->
   <div class="modal-overlay" id="modal-overlay">
     <div class="modal" id="modal">
       <button class="modal-close" id="modal-close">✕</button>
@@ -144,9 +241,7 @@
     </div>
   </div>
 
-  <!-- ══════════════════════════════════════════
-       TOAST
-  ══════════════════════════════════════════ -->
+  <!-- TOAST -->
   <div class="toast" id="toast"></div>
 
   <script src="script.js"></script>
