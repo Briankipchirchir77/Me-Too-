@@ -64,7 +64,8 @@ def signup():
     send_email(
         user.email,
         "Verify your Me Too! account",
-        f"Welcome, {user.name}! Verify your email: /verify-email?token={user.verification_token}",
+        f"Welcome, {user.name}! Verify your email: "
+        f"{current_app.config['FRONTEND_ORIGIN']}/?verify_token={user.verification_token}",
     )
 
     token = create_access_token(identity=str(user.id))
@@ -118,7 +119,8 @@ def resend_verification():
     send_email(
         user.email,
         "Verify your Me Too! account",
-        f"Verify your email: /verify-email?token={user.verification_token}",
+        f"Verify your email: "
+        f"{current_app.config['FRONTEND_ORIGIN']}/?verify_token={user.verification_token}",
     )
     return jsonify({"message": "Verification email sent."})
 
@@ -139,7 +141,9 @@ def forgot_password():
         send_email(
             user.email,
             "Reset your Me Too! password",
-            f"Reset your password: /reset-password?token={user.reset_token} (expires in 1 hour)",
+            f"Reset your password: "
+            f"{current_app.config['FRONTEND_ORIGIN']}/?reset_token={user.reset_token} "
+            f"(expires in 1 hour)",
         )
     response = {"message": "If that email is registered, a reset link has been sent."}
     if current_app.config.get("TESTING") or current_app.config.get("DEBUG"):
