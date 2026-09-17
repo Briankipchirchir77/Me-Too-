@@ -1,28 +1,41 @@
 # Me Too! — Find Your People
 
-**Author:** Brian Kipchirchir  
-**Stack:** HTML5 · CSS3 · Vanilla JavaScript (ES6+) · Google Fonts  
-**Demo:** Open `index.html` directly in any browser — no build step required.
+**Author:** Brian Kipchirchir
+**Stack:** React (Vite) · Flask · SQLAlchemy · PostgreSQL · JWT auth (bcrypt-hashed passwords)
 
 ---
 
 ## Overview
 
-Me Too! is a frontend social-discovery web application that helps people connect based on **shared interests, hobbies, and location** — not appearance. It demonstrates real-world use of the Fetch API, DOM manipulation, event handling, form validation, and responsive UI design.
+Me Too! is a social-discovery app that helps people connect based on **shared interests, hobbies, and location** — not appearance. Browse people near you, search/filter by interest, location, age and gender, discover people by interest category, RSVP to local events, and send/accept friend requests.
 
-The app connects to a local JSON Server backend (`http://localhost:3000`) when available, and falls back seamlessly to built-in demo data otherwise.
+This is a full-stack rewrite of an earlier vanilla-JS prototype (still available in [`legacy/`](legacy/) for reference). The current app is a two-service architecture:
+
+- **`frontend/`** — a React (Vite) single-page app.
+- **`backend/`** — a Flask REST API backed by PostgreSQL via SQLAlchemy, with JWT-based authentication and bcrypt password hashing.
 
 ---
 
 ## Project Structure
 
 ```
-MeToo/
-├── index.html    — Page structure and all four page sections (Home, Search, Discover, Events)
-├── styles.css    — All styling: variables, layout, components, responsive rules
-├── script.js     — All app logic: fetch, search, DOM updates, auth, events
-├── db.json       — Sample data for json-server backend (8 users)
-└── README.md     — This file
+Too!/
+├── backend/            — Flask API, SQLAlchemy models, migrations, tests
+│   ├── app/
+│   │   ├── models.py       — User, Interest, FriendRequest, Event, EventRsvp
+│   │   ├── routes/         — auth, users, friends, events, interests blueprints
+│   │   ├── config.py       — Dev/Test/Prod config (reads from .env)
+│   │   └── seed.py         — `flask seed` demo data command
+│   ├── migrations/      — Alembic migrations (Flask-Migrate)
+│   └── tests/           — pytest suite
+├── frontend/            — React app (Vite), one page per route
+│   └── src/
+│       ├── api/            — fetch client + per-resource API calls
+│       ├── context/        — Auth / Modal / Toast providers
+│       ├── components/     — Navbar, cards, modals, etc.
+│       └── pages/          — Home, Search, Discover, Events
+├── legacy/              — the original static HTML/CSS/JS prototype
+└── docs/screenshots/     — app screenshots
 ```
 
 ---
@@ -31,92 +44,59 @@ MeToo/
 
 | Feature | Details |
 |---|---|
-| **Fetch API** | Fetches `/users` from local API; gracefully falls back to demo data with HTTP status error handling and JSON parse error handling |
-| **Search** | Multi-filter: keyword/interest, location, gender toggle, age range; Enter-key support; edge-case empty-filter warning; result count display |
-| **Discover** | 16 interest category tiles (Hiking, Music, Art, Tech, etc.); clicking any tile filters and displays matching users |
-| **Events** | 12 event cards; category filter tabs (Sports, Arts, Tech, Food, Music, Outdoors); RSVP system with full-event detection and attendee count updates |
-| **DOM Manipulation** | All cards, modals, strips, and sections built entirely via JavaScript DOM APIs — no static HTML cards |
-| **Form Handling** | Sign-up form with field-specific validation messages; login with Enter-key support; gender selector; interests parsed from comma-separated input |
-| **Auth** | Session stored in `localStorage`; login/logout updates nav, profile section, and all grids; duplicate email detection on signup |
-| **Friend Requests** | Send, accept, decline; duplicate-request prevention; card state updates (Connect → Sent → Friends) |
-| **Feature Tiles** | All 5 home tiles are functional: Interests → Discover, Near You → Search, Safe & Verified → info modal, Conversations → prompt, Events → Events page |
-| **Responsive Design** | Mobile-first grid layouts; nav collapses on small screens; all pages adapt to viewport |
-
----
-
-## How It Works
-
-### Fetch API & Error Handling
-
-```js
-async function loadUsers() {
-  const res = await apiFetch('/users');          // wrapped fetch with try/catch
-  if (res && res.ok)       { allUsers = await res.json(); }
-  else if (res && !res.ok) { /* HTTP error — show toast, use demo */ }
-  else                     { /* null = network error — silent demo mode */ }
-}
-```
-
-Three distinct failure paths are handled: network failure, HTTP error status, and malformed JSON.
-
-### Search
-
-Filters across four dimensions simultaneously:
-
-```js
-const kOk = !kw || [u.name, ...(u.interests||[]), u.bio||''].join(' ').toLowerCase().includes(kw);
-```
-
-Keyword search matches against name, all interests, and bio text. Age range auto-corrects if min > max.
-
-### DOM Manipulation
-
-Every user card, event card, interest tile, and friend request card is created programmatically:
-
-```js
-const card = document.createElement('div');
-card.className = 'user-card';
-card.innerHTML = `…`;
-grid.appendChild(card);
-```
-
-### Authentication & Storage
-
-```js
-localStorage.setItem('metoo_user', JSON.stringify(user));
-currentUser = JSON.parse(localStorage.getItem('metoo_user') || 'null');
-```
-
-Session persists across page refreshes. Logout clears storage and resets all UI state.
+| **Auth** | Signup/login with bcrypt-hashed passwords and JWT access tokens (no plaintext passwords, no client-trusted session data) |
+| **Search** | Server-side filtering by keyword, location, gender, and age range, with pagination |
+| **Discover** | Browse by interest category with live counts pulled from the database |
+| **Events** | Category filter tabs, RSVP with server-enforced capacity limits and duplicate-RSVP prevention |
+| **Friend Requests** | Send, accept, decline; duplicate/self-request prevention; friends derived from accepted requests |
+| **Admin** | `is_admin`-gated event management (create/edit/delete) at `/admin`, hidden from the nav for regular users |
+| **Validation & errors** | Consistent JSON error responses; meaningful 400/401/404/409 statuses instead of silent failures |
 
 ---
 
 ## Getting Started
 
-### Option A — Open directly (demo mode)
+### 1. Backend (Flask + PostgreSQL)
 
 ```bash
-git clone <your-repo-url>
-cd MeToo
-open index.html          # macOS
-# or double-click index.html in your file manager
+cd backend
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+# create a local Postgres role + database (adjust to your setup)
+sudo -u postgres createuser -s "$(whoami)"
+sudo -u postgres createdb -O "$(whoami)" metoo_dev
+
+cp .env.example .env      # edit DATABASE_URL / JWT_SECRET_KEY if needed
+export FLASK_APP=wsgi.py
+flask db upgrade          # create tables
+flask seed                # load demo users, interests, and events
+flask run                 # http://localhost:5000
 ```
 
-The app runs entirely on demo data — no setup needed.
-
-### Option B — With live backend (json-server)
+Run the test suite (uses an in-memory SQLite DB, no Postgres required):
 
 ```bash
-npm install -g json-server
-json-server --watch db.json --port 3000
-# then open index.html
+pytest
 ```
 
-The app auto-detects the server and switches from demo mode to live data.
+### 2. Frontend (React + Vite)
+
+```bash
+cd frontend
+npm install
+cp .env.example .env       # VITE_API_URL, defaults to http://localhost:5000/api
+npm run dev                 # http://localhost:5173
+```
+
+Open `http://localhost:5173` with the backend running — sign up for a new account, or log in with one of the seeded demo accounts below.
 
 ---
 
 ## Demo Credentials
+
+Seeded by `flask seed`:
 
 | Name | Email | Password |
 |---|---|---|
@@ -127,49 +107,32 @@ The app auto-detects the server and switches from demo mode to live data.
 | Esther Njoki | esther@example.com | password123 |
 | Frank Odhiambo | frank@example.com | password123 |
 | Scott Martha Awuor | scott@example.com | password123 |
-| Brian Kipchirchir | briankipchirchir964@gmail.com | CHROMETE |
+| Brian Kipchirchir (admin) | briankipchirchir964@gmail.com | CHROMETE |
 
 ---
 
-## Technologies
+## API Overview
 
-- **HTML5** — Semantic structure, four page sections in a single file
-- **CSS3** — Custom properties (CSS variables), flexbox, grid, animations, responsive breakpoints
-- **Vanilla JavaScript ES6+** — async/await, fetch, arrow functions, template literals, Set, optional chaining
-- **Google Fonts** — Playfair Display (headings) + DM Sans (body)
-- **JSON Server** (optional) — REST API from db.json for live data
+All endpoints are prefixed with `/api`. JSON in, JSON out; protected routes expect `Authorization: Bearer <token>`.
 
----
-
-## Limitations
-
-- No real backend — data does not persist between page refreshes in demo mode
-- Authentication uses plain-text passwords — not suitable for production
-- Friend requests and RSVPs reset on page reload (demo mode)
-- No real-time messaging or push notifications
+- `POST /auth/signup`, `POST /auth/login`, `GET /auth/me`
+- `GET /users?q=&location=&gender=&min_age=&max_age=&interest=&page=&per_page=`, `GET /users/<id>`
+- `GET /interests`
+- `POST /friends/requests`, `GET /friends/requests`, `POST /friends/requests/<id>/accept`, `POST /friends/requests/<id>/decline`, `GET /friends`
+- `GET /events?category=`, `POST /events/<id>/rsvp`, `DELETE /events/<id>/rsvp`
+- Admin-only (`is_admin` account required): `POST /events`, `PATCH /events/<id>`, `DELETE /events/<id>`
 
 ---
 
-## Future Improvements
+## Screenshots
 
-- Backend with Node.js / Express and a real database (PostgreSQL or MongoDB)
-- Secure authentication using JWT and bcrypt
-- Real-time messaging with WebSockets
-- Profile photo uploads
-- Push notifications for friend requests and event reminders
-- Map integration showing nearby users and event venues
+![Screenshot 1](docs/screenshots/screenshot-1.png)
+![Screenshot 2](docs/screenshots/screenshot-2.png)
+![Screenshot 3](docs/screenshots/screenshot-3.png)
+![Screenshot 4](docs/screenshots/screenshot-4.png)
 
----
-
-## Me Too! images
-
- ## Me Too! Images
-
-![Screenshot 1](me-too-1.png)
-![Screenshot 2](me-too-2.png)
-![Screenshot 3](me-too-3.png)
-![Screenshot 4](me-too-4.png)
+*(from the earlier prototype UI — the React rebuild keeps the same look and feel)*
 
 ## License
 
-Open for learning and personal use.
+MIT — see [LICENSE](LICENSE). Open for learning and personal use.
