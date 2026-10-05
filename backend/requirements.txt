@@ -12,3 +12,4 @@ pytest==8.2.2
 pywebpush==2.0.1
 Pillow==10.4.0
 sentry-sdk[flask]==2.13.0
+SQLAlchemy==2.0.36
