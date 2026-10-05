@@ -113,6 +113,17 @@ npm run dev                 # http://localhost:5173
 
 Open `http://localhost:5173` with the backend running — sign up for a new account, or log in with one of the seeded demo accounts below.
 
+### 3. Deploy (Vercel + Render)
+
+The repository includes a Vercel config for the Vite frontend and a Render Blueprint for the Flask API.
+
+1. Import the repository into Vercel with the repository root as the project root and deploy once to get its production origin (for example, `https://your-app.vercel.app`). This first deploy can use the default API URL; it will be updated after Render is ready.
+2. Create a PostgreSQL database on Render, then create the web service from this repository using the included `render.yaml`. Set `DATABASE_URL` to the database's **Internal Database URL** and `FRONTEND_ORIGIN` to the Vercel origin, with no trailing slash. Render generates `JWT_SECRET_KEY` for you. The service runs database migrations before starting Gunicorn.
+3. In Vercel Project Settings > Environment Variables, set `VITE_API_URL` to your Render service URL plus `/api` (for example, `https://metoo-api.onrender.com/api`) and redeploy. The Vercel config builds `frontend/` and serves its `dist/` output, including client-side route fallbacks.
+Note: Uploaded avatars use the backend filesystem by default. Render's filesystem is ephemeral, so configure a persistent disk and set `UPLOAD_FOLDER` to its mount path, or move uploads to persistent object storage, before relying on uploaded files in production.
+
+Web Push is optional; set `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, and `VAPID_CLAIM_EMAIL` on Render to enable it. Configure email delivery separately before relying on verification or password-reset emails; the default implementation logs messages to the backend console.
+
 ---
 
 ## Demo Credentials
