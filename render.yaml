@@ -2,6 +2,7 @@ services:
   - type: web
     name: metoo-api
     runtime: python
+    plan: free
     rootDir: backend
     buildCommand: pip install -r requirements.txt
     startCommand: flask --app wsgi db upgrade && gunicorn wsgi:app
